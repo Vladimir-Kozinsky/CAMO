@@ -1,0 +1,4 @@
+.footerApp {
+    border: solid 1px blue;
+    grid-area: f;
+}

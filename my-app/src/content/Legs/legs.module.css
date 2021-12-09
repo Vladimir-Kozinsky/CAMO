@@ -1,0 +1,129 @@
+.legsHeader {
+    background: rgb(219, 218, 218);
+    padding: 15px;
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+}
+
+.selectAircraftItem {
+    width: 100px;
+}
+
+h2 {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.listAircrafts {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 260px;
+}
+
+.aircraftInfo {
+    margin-top: 10px;
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+    background: rgb(219, 218, 218);
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.aircraftInfo input {
+    margin-left: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    width: 100px;
+}
+
+.tableHeader {
+    display: flex;
+    background-color: rgb(172, 166, 166);
+}
+
+.legsBlock {
+    background: rgb(219, 218, 218);
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+    padding: 10px;
+    margin-top: 10px;
+    opacity: 95%;
+    position: relative;
+}
+
+.legsContainer {
+    padding: 10px;
+    max-height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.legItem {
+    margin-top: 5px;
+    display: flex;
+}
+
+.legsContPanel {
+    margin: 0 auto;
+    width: 460px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.ledItemBtnBlock {
+    width: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    position: relative;
+
+}
+
+.ledItemBtnBlock button {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+}
+
+.ledItemBtnBlock button:hover {
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+
+
+}
+
+.ledItemBtnBlock button:active {
+    width: 18px;
+    height: 18px;
+}
+
+.delBtn {
+    background-color: red;
+    border: rgb(190, 2, 2) 1px solid;
+    left: 45px;
+}
+
+.redBtn {
+    background-color: orange;
+    border: 1px solid rgb(182, 119, 1);
+    left: 22px;
+
+}
+
+.legChangeForm {
+    position: absolute;
+    z-index: 10;
+    left: 50px;
+    top: 30px;
+}

@@ -1,0 +1,15 @@
+.preloader {
+    position: absolute;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 698px;
+    width: 1149px;
+    background-color: white;
+    opacity: 90%;
+
+}
+.preloader img {
+    height: 100px;
+}

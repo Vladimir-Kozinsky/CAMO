@@ -1,0 +1,25 @@
+.app {
+    background-image: url('./common/img/airplane.jpg');
+    /* opacity: 50%; */
+
+}
+
+.appContainer {
+    border: solid 1px red;
+    display: grid;
+    width: 1440px;
+    height: 1020px;
+    margin: 0 auto;
+    grid-template-rows: 150px 700px 150px;
+    grid-template-columns: 19% 80%;
+    gap: 1%;
+    grid-template-areas:
+        "h h"
+        "s c"
+        "f f";
+}
+
+.contentApp {
+    border: solid red 1px;
+    grid-area: c;
+}

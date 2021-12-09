@@ -1,0 +1,16 @@
+.mainButton {
+    width: 100px;
+    height: 30px;
+    background-color: orange;
+    border-radius: 8px;
+    border: 1px solid rgb(189, 123, 0);
+    font-weight: 800;
+}
+
+
+.mainButton:hover {
+    background-color: rgb(117, 76, 0);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}

@@ -1,0 +1,11 @@
+.sideMenuApp {
+    background-color: white;
+    border: solid 1px green;
+    grid-area: s;
+    padding: 10px;
+}
+
+.sideMenuApp a {
+    text-decoration: none;
+    color: black;
+}
