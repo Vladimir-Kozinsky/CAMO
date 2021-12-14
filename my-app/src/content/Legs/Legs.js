@@ -9,7 +9,7 @@ import LegRedForm from "./legsRedForm/LegRedForm"
 const Legs = (props) => {
     let [editMode, setEditMode] = useState(false)
     let [changeMode, setChangeMode] = useState(false)
-    let [changeLegMode, setChangeLegMode] = useState({isMode:false, id:'id'})
+    let [changeLegMode, setChangeLegMode] = useState({ isMode: false, legId: 'id' })
     console.log(changeLegMode)
 
     const getAircraftInfo = () => {
@@ -31,29 +31,26 @@ const Legs = (props) => {
     })
     let legs = props.legs ? props.legs.map((leg) => {
         return (
-            <div className={s.legItem} key={leg._id}>
+            <div className={s.legItem} key={leg.legId}>
 
                 {changeMode ? <div className={s.ledItemBtnBlock} >
-                    <input type="checkbox" id={leg._id} name="field" />
-                    <button className={s.redBtn} onClick={() => setChangeLegMode({isMode:true, id:leg._id})} >/</button>
-                    <button className={s.delBtn}>X</button>
+                    <button className={s.redBtn} onClick={() => setChangeLegMode({ isMode: true, legId: leg.legId })} ></button>
+                    <button className={s.delBtn}></button>
                 </div> : null}
-                <table>
-                    <tbody>
-                        <tr >
-                            <th className={s.depDateTh}>{leg.depDate}</th>
-                            <th className={s.flightNumber}>{leg.flightNumber}</th>
-                            <th className={s.from}>{leg.from}</th>
-                            <th className={s.to}>{leg.to}</th>
-                            <th className={s.blockOFF}>{leg.blockOFF.time}</th>
-                            <th className={s.takeOFF}>{leg.takeOFF.time}</th>
-                            <th className={s.land}>{leg.land.time}</th>
-                            <th className={s.blockON}>{leg.blockON.time}</th>
-                            <th className={s.totalFH}>{leg.totalFH}</th>
-                            <th className={s.totalFC}>{leg.totalFC}</th>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className={s.columns}>
+                    <div className={s.depDateTh}>{leg.depDate}</div>
+                    <div className={s.flightNumber}>{leg.flightNumber}</div>
+                    <div className={s.from}>{leg.from}</div>
+                    <div className={s.to}>{leg.to}</div>
+                    <div className={s.blockOFF}>{leg.blockOFF.time}</div>
+                    <div className={s.takeOFF}>{leg.takeOFF.time}</div>
+                    <div className={s.land}>{leg.land.time}</div>
+                    <div className={s.blockON}>{leg.blockON.time}</div>
+                    <div className={s.blockON}>{leg.flightTime}</div>
+                    <div className={s.blockON}>{leg.blockTime}</div>
+                    <div className={s.totalFH}>{leg.totalFH}</div>
+                    <div className={s.totalFC}>{leg.totalFC}</div>
+                </div>
             </div>
         )
     }) : null
@@ -75,7 +72,6 @@ const Legs = (props) => {
                 </div>
                 {props.aircraftInfo
                     ? <div className={s.aircraftInfo}>
-
                         <div>
                             <label>Type:</label>
                             <input disabled value={props.aircraftInfo.type} />
@@ -104,33 +100,30 @@ const Legs = (props) => {
                             <LegRedForm
                                 setChangeLegMode={setChangeLegMode}
                                 aircraftInfo={props.aircraftInfo}
-                                legId={changeLegMode.id}
-                                legs={props.legs} />
+                                legId={changeLegMode.legId}
+                                legs={props.legs}
+                                redLeg={props.redLeg} />
                         </div> : null}
                         <div className={s.legsContainer}>
                             <div className={s.tableHeader}>
-                                {changeMode ? <input type="checkbox" id="all" /> : null}
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>UTC Dep.Date</th>
-                                            <th>Flight Number</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>BlockOFF</th>
-                                            <th>Take OFF</th>
-                                            <th>Landing</th>
-                                            <th>Block ON</th>
-                                            <th>Total FH</th>
-                                            <th>Total FC</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                {changeMode ? <div className={s.ledItemBtnBlock}> </div> : null}
+                                <div className={s.columns}>
+                                    <div>UTC Dep.Date</div>
+                                    <div>Flight Number</div>
+                                    <div>From</div>
+                                    <div>To</div>
+                                    <div>BlockOFF</div>
+                                    <div>Take OFF</div>
+                                    <div>Landing</div>
+                                    <div>Block ON</div>
+                                    <div>Flight Time</div>
+                                    <div>Block Time</div>
+                                    <div>Total FH</div>
+                                    <div>Total FC</div>
+                                </div>
                             </div>
-
                             {legs}
                         </div>
-
                         {(props.aircraftInfo && !editMode && !changeMode)
                             ? <div className={s.legsContPanel} >
                                 <MainButton onClick={() => setEditMode(true)} buttonText="Add" />
@@ -149,6 +142,7 @@ const Legs = (props) => {
                     addLeg={props.addLeg}
                     aircraftInfo={props.aircraftInfo}
                     legsAddRes={props.legsAddRes}
+                    legs={props.legs}
                 /> : null}
                 {props.legsAddRes ? <LegResMes legsAddRes={props.legsAddRes} /> : null}
             </div>

@@ -5,14 +5,14 @@ import MainButton from "../../../common/buttons/MainButton";
 
 const LegRedForm = (props) => {
 
-    let obj = props.legs.find(o => o._id === props.legId);
+    let obj = props.legs.find(o => o.legId === props.legId);
 
     const formik = useFormik({
         initialValues: {
             depDate: obj.depDate,
             flightNumber: obj.flightNumber,
-            from: 'EDDT',
-            to: 'EDTE',
+            from: obj.from,
+            to: obj.to,
             blockOffDate: obj.blockOFF.date,
             blockOffTime: obj.blockOFF.time,
             takeOffDate: obj.takeOFF.date,
@@ -30,23 +30,8 @@ const LegRedForm = (props) => {
             return errors;
         },
         onSubmit: values => {
-
-            const calc = () => {
-                const time1 = new Date(`${values.takeOffDate} ${values.takeOffTime}`)
-                const time2 = new Date(`${values.landDate} ${values.landTime}`)
-                const min = (time2 - time1) / 60000
-                const total = props.aircraftInfo.FH
-                const arrNum = total.split(":")
-                const totalMin = +arrNum[0] * 60 + (+arrNum[1]) + min
-                const newHours = Math.floor(totalMin / 60)
-                const newMins = totalMin % 60
-                const resultStr = `${newHours}:${newMins}`
-                return resultStr
-            }
-
-            const totalFC = props.aircraftInfo.FC + 1
-
             let leg = {
+                legId: props.legId,
                 depDate: values.depDate,
                 flightNumber: values.flightNumber,
                 from: values.from,
@@ -67,9 +52,9 @@ const LegRedForm = (props) => {
                     date: values.blockOnDate,
                     time: values.blockOnTime,
                 },
-                totalFH: calc(),
-                totalFC: totalFC
             }
+
+            props.redLeg(leg, props.aircraftInfo.msn, props.legId)
 
         },
     });
@@ -227,7 +212,7 @@ const LegRedForm = (props) => {
                 </div>
                 <div className={s.legAddBtnContainer}>
                     <MainButton type="submit" buttonText="Submit" />
-                    <MainButton type="button" onClick={() => props.setChangeLegMode({isMode:false})} buttonText="Cancel" />
+                    <MainButton type="button" onClick={() => props.setChangeLegMode({ isMode: false })} buttonText="Cancel" />
                 </div>
             </form>
         </div>

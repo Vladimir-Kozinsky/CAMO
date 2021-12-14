@@ -4,6 +4,49 @@ const cors = require('cors')
 
 const router = new Router()
 
+// GLOBAL FUNCTIONS
+const minToStr = (time) => {
+    const hours = Math.floor(time / 60)
+    const mins = time % 60
+    const resultStr = `${hours}:${mins}`
+    return resultStr
+}
+
+const calcMinTime = (startDate, startTime, endDate, endTime) => {
+    const takeOfftime = new Date(`${startDate} ${startTime}`)
+    const landTime = new Date(`${endDate} ${endTime}`)
+    const totalMinFligthTime = (landTime - takeOfftime) / 60000
+    return totalMinFligthTime
+}
+
+const strToMin = (str) => {
+    const arrNum = str.split(":")
+    const totalMin = +arrNum[0] * 60 + (+arrNum[1])
+    return totalMin
+}
+
+const calcTotalFH = (initFH, legs, legId, legFH) => {
+    const initFHMin = strToMin(initFH)
+    let legsFHMim = 0
+    for (let i = 0; i < (legId ? legId - 1 : legs.length); i++) {
+        const element = legs[i].flightTime;
+        legsFHMim += strToMin(element)
+    }
+    return initFHMin + (legs.length < 1 ? 0 : legsFHMim) + (legFH ? legFH : 0)
+}
+
+const calcTotalFC = (initFC, legs, legId) => {
+    let legsFC = 0
+    if (legs.length > 0) {
+        for (let i = 0; i < (legId ? legId - 1 : legs.length); i++) {
+            legsFC += 1
+        }
+    }
+    return initFC + legsFC + (legId ? 1 : 0)
+}
+
+// ROUTERS
+
 router.use(cors({
     origin: 'http://localhost:3000'
 }))
@@ -11,8 +54,8 @@ router.use(cors({
 // ADD AIRCRAFT
 router.post('/add', async (req, res) => {
     try {
-        const { msn, reg, type, FH, FC, legs } = req.body
-        const aircraft = await Aircraft.create({ msn, reg, type, FH, FC, legs })
+        const { msn, reg, type, initFH, initFC, FH, FC, legs } = req.body
+        const aircraft = await Aircraft.create({ msn, reg, type, initFH, initFC, FH, FC, legs })
         res.json(aircraft)
     } catch (error) {
         res.status(500).json(error)
@@ -23,16 +66,46 @@ router.post('/add', async (req, res) => {
 router.post('/legs/add', async (req, res) => {
     try {
         const { msn, leg } = req.body
+
         const air = await Aircraft.findOne({ msn: msn }).exec();
+        let legs = air.legs
+
+        let legtoPush = {
+            legId: leg.legId,
+            depDate: leg.depDate,
+            flightNumber: leg.flightNumber,
+            from: leg.from,
+            to: leg.to,
+            blockOFF: {
+                date: leg.blockOFF.date,
+                time: leg.blockOFF.time,
+            },
+            takeOFF: {
+                date: leg.takeOFF.date,
+                time: leg.takeOFF.time,
+            },
+            land: {
+                date: leg.land.date,
+                time: leg.land.time,
+            },
+            blockON: {
+                date: leg.blockON.date,
+                time: leg.blockON.time,
+            },
+            flightTime: minToStr(calcMinTime(leg.takeOFF.date, leg.takeOFF.time, leg.land.date, leg.land.time)),
+            blockTime: minToStr(calcMinTime(leg.blockOFF.date, leg.blockOFF.time, leg.blockON.date, leg.blockON.time)),
+            totalFH: minToStr(calcTotalFH(air.initFH, legs, leg.legId, calcMinTime(leg.takeOFF.date, leg.takeOFF.time, leg.land.date, leg.land.time))),
+            totalFC: calcTotalFC(air.initFC, legs, leg.legId),
+        }
 
         await Aircraft.updateOne(
             air,
-            { $push: { legs: leg } },
+            { $push: { legs: legtoPush } },
         );
 
-        await Aircraft.updateOne({
-            msn: msn
-        }, { FH: leg.totalFH, FC: leg.totalFC }, { upsert: true });
+        await Aircraft.updateOne(
+            { msn: msn },
+            { FH: minToStr(calcTotalFH(air.initFH, legs, leg.legId, calcMinTime(leg.takeOFF.date, leg.takeOFF.time, leg.land.date, leg.land.time))), FC: calcTotalFC(air.initFC, legs, leg.legId) }, { upsert: true });
 
 
         res.json({
@@ -40,6 +113,68 @@ router.post('/legs/add', async (req, res) => {
             message: "Leg succesfully added"
         })
     } catch (error) {
+        res.status(500).json({
+            resultCode: 0,
+            message: error
+        })
+    }
+})
+
+router.post('/legs/red', async (req, res) => {
+    try {
+        const { msn, leg, legId } = req.body
+        const air = await Aircraft.findOne({ msn: msn }).exec();
+        let legs = air.legs
+
+        let legtoPush = {
+            legId: legId,
+            depDate: leg.depDate,
+            flightNumber: leg.flightNumber,
+            from: leg.from,
+            to: leg.to,
+            blockOFF: {
+                date: leg.blockOFF.date,
+                time: leg.blockOFF.time,
+            },
+            takeOFF: {
+                date: leg.takeOFF.date,
+                time: leg.takeOFF.time,
+            },
+            land: {
+                date: leg.land.date,
+                time: leg.land.time,
+            },
+            blockON: {
+                date: leg.blockON.date,
+                time: leg.blockON.time,
+            },
+            flightTime: minToStr(calcMinTime(leg.takeOFF.date, leg.takeOFF.time, leg.land.date, leg.land.time)),
+            blockTime: minToStr(calcMinTime(leg.blockOFF.date, leg.blockOFF.time, leg.blockON.date, leg.blockON.time)),
+            totalFH: minToStr(calcTotalFH(air.initFH, legs, legId, calcMinTime(leg.takeOFF.date, leg.takeOFF.time, leg.land.date, leg.land.time))),
+            totalFC: calcTotalFC(air.initFC, legs, legId),
+        }
+
+        legs.forEach(function (item, i) { if (item.legId == legId) legs[i] = legtoPush });
+
+        legs.map((leg) => {
+            leg.totalFH = minToStr(calcTotalFH(air.initFH, legs, leg.legId, strToMin(leg.flightTime)))
+            leg.totalFC = calcTotalFC(air.initFC, legs, leg.legId)
+        })
+        await Aircraft.updateOne(
+            { msn: msn },
+            { legs: legs }, { upsert: true });
+
+        await Aircraft.updateOne(
+            { msn: msn },
+            { FH: minToStr(calcTotalFH(air.initFH, legs)), FC: calcTotalFC(air.initFC, legs) }, { upsert: true });
+
+        res.json({
+            resultCode: 1,
+            message: "Leg succesfully red"
+        })
+
+    } catch (error) {
+        console.log(error)
         res.status(500).json({
             resultCode: 0,
             message: error

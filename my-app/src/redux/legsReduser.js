@@ -86,10 +86,25 @@ export const addLeg = (values, msn) => {
         dispatch(setPreloader(false))
         if (addLegData.resultCode === 1) {
             console.log('added')
+            dispatch(getLegs(msn))
             dispatch(getAircraftInfo(msn))
-            console.log(initialState.legs)
         }
         setTimeout(function () { dispatch(setAircraftLegsAddRes(null)); }, 1000);
+
+    }
+}
+export const redLeg = (values, msn, legId) => {
+    return async (dispatch) => {
+        dispatch(setPreloader(true))
+        const redLegData = await aircraftAPI.redLeg(values, msn, legId)
+        dispatch(setAircraftLegsAddRes(redLegData))
+        dispatch(setPreloader(false))
+        if (redLegData.resultCode === 1) {
+            console.log('red')
+            dispatch(getLegs(msn))
+            dispatch(getAircraftInfo(msn))
+        }
+       // setTimeout(function () { dispatch(setAircraftLegsAddRes(null)); }, 1000);
 
     }
 }

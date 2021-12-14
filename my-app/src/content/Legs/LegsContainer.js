@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { compose } from "redux";
 import Legs from "./Legs";
-import { getAircraftInfo, getAircrafts, getLegs, addLeg } from "../../redux/legsReduser"
+import { getAircraftInfo, getAircrafts, getLegs, addLeg, redLeg } from "../../redux/legsReduser"
 
 
 class LegsContainer extends React.Component {
@@ -20,7 +20,8 @@ class LegsContainer extends React.Component {
             getAircraftInfo={this.props.getAircraftInfo}
             getAircrafts={this.props.getAircrafts}
             getLegs={this.props.getLegs}
-            addLeg={this.props.addLeg} />
+            addLeg={this.props.addLeg}
+            redLeg={this.props.redLeg} />
     }
 }
 
@@ -37,4 +38,4 @@ let mapStateToProps = (state) => {
 
 
 
-export default compose(connect(mapStateToProps, { getAircraftInfo, getAircrafts, getLegs, addLeg }))(LegsContainer)
+export default compose(connect(mapStateToProps, { getAircraftInfo, getAircrafts, getLegs, addLeg, redLeg }))(LegsContainer)

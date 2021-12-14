@@ -4,12 +4,12 @@ import { useFormik } from 'formik';
 import MainButton from "../../../common/buttons/MainButton";
 
 const LegsAddForm = (props) => {
-    
+
 
     const formik = useFormik({
         initialValues: {
             depDate: "2021-12-011",
-            flightNumber: 'flightNumber',
+            flightNumber: 'RSB2255',
             from: 'EDDT',
             to: 'EDTE',
             blockOffDate: "2021-12-01",
@@ -29,23 +29,8 @@ const LegsAddForm = (props) => {
             return errors;
         },
         onSubmit: values => {
-
-            const calc = () => {
-                const time1 = new Date(`${values.takeOffDate} ${values.takeOffTime}`)
-                const time2 = new Date(`${values.landDate} ${values.landTime}`)
-                const min = (time2 - time1) / 60000
-                const total = props.aircraftInfo.FH
-                const arrNum = total.split(":")
-                const totalMin = +arrNum[0] * 60 + (+arrNum[1]) + min
-                const newHours = Math.floor(totalMin / 60)
-                const newMins = totalMin % 60
-                const resultStr = `${newHours}:${newMins}`
-                return resultStr
-            }
-
-            const totalFC = props.aircraftInfo.FC + 1
-
             let leg = {
+                legId: props.legs ? props.legs.length + 1 : 1,
                 depDate: values.depDate,
                 flightNumber: values.flightNumber,
                 from: values.from,
@@ -66,8 +51,6 @@ const LegsAddForm = (props) => {
                     date: values.blockOnDate,
                     time: values.blockOnTime,
                 },
-                totalFH: calc(),
-                totalFC: totalFC
             }
             props.addLeg(leg, props.aircraftInfo.msn)
             props.setEditMode(false)

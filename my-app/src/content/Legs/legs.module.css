@@ -43,11 +43,6 @@ th, td {
     width: 100px;
 }
 
-.tableHeader {
-    display: flex;
-    background-color: rgb(172, 166, 166);
-}
-
 .legsBlock {
     background: rgb(219, 218, 218);
     box-shadow: 0 0 7px rgb(0, 0, 0);
@@ -64,9 +59,22 @@ th, td {
     overflow-x: hidden;
 }
 
+.columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.columns div {
+    width: 87px;
+    border: solid 1px black;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .legItem {
     margin-top: 5px;
-    display: flex;
 }
 
 .legsContPanel {
@@ -79,12 +87,13 @@ th, td {
 }
 
 .ledItemBtnBlock {
-    width: 70px;
+    float: left;
+    width: 50px;
+    height: 22px;
     display: flex;
     justify-content: space-between;
     align-self: center;
     position: relative;
-
 }
 
 .ledItemBtnBlock button {
@@ -93,6 +102,9 @@ th, td {
     border-radius: 5px;
     position: absolute;
     z-index: 1;
+    
+    background-size: contain;
+    border: none;
 }
 
 .ledItemBtnBlock button:hover {
@@ -109,15 +121,12 @@ th, td {
 }
 
 .delBtn {
-    background-color: red;
-    border: rgb(190, 2, 2) 1px solid;
-    left: 45px;
+    background: url("./../Legs/../../common/buttons/del.png") no-repeat;
+    left: 26px;
 }
 
 .redBtn {
-    background-color: orange;
-    border: 1px solid rgb(182, 119, 1);
-    left: 22px;
+    background: url("./../Legs/../../common/buttons/editBtn.png") no-repeat;
 
 }
 
