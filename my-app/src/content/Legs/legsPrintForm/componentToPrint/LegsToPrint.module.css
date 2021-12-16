@@ -1,0 +1,71 @@
+.printBlock {
+    margin: 20px 0px;
+    padding: 10px;
+    max-height: 350px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 40px 15px;
+    }
+
+    .printBlock {
+        overflow: visible;
+        margin: 0px;
+        padding: 0px;
+
+    }
+
+    .printBlock h2 {
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
+.printBlock h2 {
+    margin: 0px;
+}
+
+.legsHeader {
+    background: rgb(219, 218, 218);
+    padding: 15px;
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.columns div {
+    width: 87px;
+    border: solid 1px black;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.legItem {
+    margin-top: 5px;
+}
+
+.legsReportHeader {
+    padding: 0px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.legsReportHeader ul, li {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.legsReportACInfo, .legsReportInfo {
+    display: flex;
+    font-size: 14px;
+}

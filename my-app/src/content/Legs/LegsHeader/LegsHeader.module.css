@@ -1,0 +1,40 @@
+.legsHeader {
+    background: rgb(219, 218, 218);
+    padding: 15px;
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+}
+
+.listAircrafts {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 260px;
+}
+
+h2 {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.selectAircraftItem {
+    width: 100px;
+}
+
+.enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.enterActive {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.exit {
+  opacity: 1;
+}
+.exitActive {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}

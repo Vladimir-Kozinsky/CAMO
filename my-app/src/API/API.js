@@ -13,7 +13,12 @@ export const aircraftAPI = {
     },
     getLegs(msn) {
         return proxy.get('aircraft/legs/', {
-            params: { msn: msn }
+            params: { msn: msn}
+        }).then(response => response.data)
+    },
+    getSortedLegs(msn, from, to) {
+        return proxy.get('aircraft/sortlegs/', {
+            params: { msn: msn, from: from, to: to }
         }).then(response => response.data)
     },
     getAircraftsList() {
@@ -24,5 +29,8 @@ export const aircraftAPI = {
     },
     redLeg(leg, msn, legId) {
         return proxy.post('aircraft/legs/red', { leg, msn, legId }).then(response => response.data)
+    },
+    delLeg(msn, legId) {
+        return proxy.post('aircraft/legs/del', { msn, legId }).then(response => response.data)
     }
 }

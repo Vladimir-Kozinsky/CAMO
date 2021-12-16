@@ -5,8 +5,14 @@ import s from './sideMenuApp.module.css'
 const SideMenuApp = () => {
     return (
         <div className={s.sideMenuApp} >
-            <NavLink to="/legs" >Legs</NavLink>
-            
+            <nav>
+                <ul>
+                    <li><NavLink to="/aircrafts">Aircrafts</NavLink></li>
+                    <li><NavLink to="/legs" >Legs</NavLink></li>
+                </ul>
+            </nav>
+
+
         </div>
     )
 }

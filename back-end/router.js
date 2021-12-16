@@ -182,6 +182,45 @@ router.post('/legs/red', async (req, res) => {
     }
 })
 
+router.post('/legs/del', async (req, res) => {
+    try {
+        const { msn, legId } = req.body
+        const air = await Aircraft.findOne({ msn: msn }).exec();
+        let legs = air.legs
+
+
+        legs.splice(legId - 1, 1)
+
+
+        legs.map((leg) => {
+            leg.legId = legs.indexOf(leg) + 1
+            leg.totalFH = minToStr(calcTotalFH(air.initFH, legs, leg.legId, strToMin(leg.flightTime)))
+            leg.totalFC = calcTotalFC(air.initFC, legs, leg.legId)
+        })
+
+
+        await Aircraft.updateOne(
+            { msn: msn },
+            { legs: legs }, { upsert: true });
+
+        await Aircraft.updateOne(
+            { msn: msn },
+            { FH: minToStr(calcTotalFH(air.initFH, legs)), FC: calcTotalFC(air.initFC, legs) }, { upsert: true });
+
+        res.json({
+            resultCode: 1,
+            message: "Leg succesfully deleted"
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            resultCode: 0,
+            message: error
+        })
+    }
+})
+
 // GET AIRCRAFT INFO
 router.get('/info', async (req, res) => {
     try {
@@ -205,6 +244,23 @@ router.get('/legs', async (req, res) => {
         const { msn } = req.query
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
         res.json(aircraft.legs)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+// GET SORTED AIRCRAFT LEGS
+router.get('/sortlegs', async (req, res) => {
+    try {
+        const { msn, from, to } = req.query
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+
+        const legs = aircraft.legs.filter(function (leg) {
+            const startDate = new Date(from).getTime()
+            const endDate = new Date(to).getTime()
+            const depDate = new Date(leg.depDate).getTime()
+            return (depDate <= endDate) && (depDate >= startDate)
+        });
+        res.json(legs)
     } catch (error) {
         res.status(500).json(error)
     }

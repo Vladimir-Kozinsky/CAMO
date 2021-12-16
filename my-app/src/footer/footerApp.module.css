@@ -1,4 +1,6 @@
 .footerApp {
-    border: solid 1px blue;
+    background: rgb(219, 218, 218);
+    padding: 15px;
+    box-shadow: 0 0 7px rgb(0, 0, 0);
     grid-area: f;
 }

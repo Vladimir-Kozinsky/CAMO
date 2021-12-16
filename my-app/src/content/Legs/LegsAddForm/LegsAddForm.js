@@ -8,11 +8,11 @@ const LegsAddForm = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            depDate: "2021-12-011",
+            depDate: "2021-12-11",
             flightNumber: 'RSB2255',
             from: 'EDDT',
             to: 'EDTE',
-            blockOffDate: "2021-12-01",
+            blockOffDate: "2021-12-11",
             blockOffTime: '10:11',
             takeOffDate: "2021-12-01",
             takeOffTime: '10:20',

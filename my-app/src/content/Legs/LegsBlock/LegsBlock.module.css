@@ -1,0 +1,81 @@
+.legsContainer {
+    padding: 10px;
+    max-height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.columns div {
+    width: 87px;
+    border: solid 1px black;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.legItem {
+    margin-top: 5px;
+}
+
+.ledItemBtnBlock {
+    float: left;
+    width: 50px;
+    height: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    position: relative;
+}
+
+.ledItemBtnBlock button {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    
+    background-size: contain;
+    border: none;
+}
+
+.redBtn:hover, .delBtn:hover {
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    top: -1px;
+    left: 25px;
+}
+
+.redBtn:hover{
+    left: -1px;
+}
+.delBtn:hover{
+    left: 25px;
+}
+.redBtn:active, .delBtn:active {
+    width: 18px;
+    height: 18px;
+}
+
+.delBtn {
+    background: url("./../Legs/../../../common/buttons/del.png") no-repeat;
+    left: 26px;
+}
+
+.redBtn {
+    background: url("./../Legs/../../../common/buttons/editBtn.png") no-repeat;
+
+}
+
+.legChangeForm {
+    position: absolute;
+    z-index: 10;
+    left: 50px;
+    top: 30px;
+}
