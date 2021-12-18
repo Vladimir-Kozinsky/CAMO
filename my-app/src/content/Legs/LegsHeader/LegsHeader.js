@@ -1,7 +1,6 @@
 import MainButton from "../../../common/buttons/MainButton"
 import s from "./LegsHeader.module.css"
-import { CSSTransition } from 'react-transition-group';
-import { useState } from "react";
+
 
 
 const LegsHeader = (props) => {
@@ -23,25 +22,11 @@ const LegsHeader = (props) => {
         )
     })
 
-    // ANIMATION 
-
-
-    const [showButton, setShowButton] = useState(true);
-    const [showMessage, setShowMessage] = useState(false);
-
-    setTimeout(() => {
-        setShowMessage(true)
-    }, 200);
 
     return (
-
-        <CSSTransition in={showMessage} timeout={300} classNames={{ ...s }} unmountOnExit
-            onEnter={() => setShowButton(false)}
-            onExited={() => setShowButton(true)}>
+        <div>
             <div className={s.legsHeader}>
-                {showButton && (
-                    <button type="button" onClick={() => setShowMessage(true)}>Click to Enter</button>
-                )}
+
                 <h2>Choose aircraft</h2>
                 <div className={s.listAircrafts}>
                     <select id="select">
@@ -51,8 +36,7 @@ const LegsHeader = (props) => {
                 </div>
 
             </div>
-        </CSSTransition>
-
+        </div>
     )
 }
 

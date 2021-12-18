@@ -10,6 +10,7 @@ import LegsPrintForm from "./legsPrintForm/LegsPrintForm"
 import LegsHeader from "./LegsHeader/LegsHeader"
 import LegsAircraftInfo from "./LegsAircraftInfo/LegsAircraftInfo"
 import LegsBlock from "./LegsBlock/LegsBlock"
+import { CSSTransition } from 'react-transition-group';
 
 const Legs = (props) => {
     let [editMode, setEditMode] = useState(false)
@@ -18,18 +19,29 @@ const Legs = (props) => {
     let [delLegMode, setDelLegMode] = useState({ isDelMode: false, legId: 'id' })
     let [legPrintMode, setlegPrintMode] = useState(false)
 
+    // ANIMATION 
+    const [showMessage, setShowMessage] = useState(false);
+
+    setTimeout(() => {
+        setShowMessage(true)
+    }, 1);
+
+
+
     return (
         <div className={s.legs}>
             {props.isPreloader ? <Preloader /> : null}
             <div>
-                <LegsHeader
-                    aircrafts={props.aircrafts}
-                    getAircraftInfo={props.getAircraftInfo}
-                    getLegs={props.getLegs} />
+                <CSSTransition in={showMessage} timeout={900} classNames={{ ...s }} unmountOnExit  >
+                    <LegsHeader
+                        aircrafts={props.aircrafts}
+                        getAircraftInfo={props.getAircraftInfo}
+                        getLegs={props.getLegs} />
+
+                </CSSTransition>
                 {props.aircraftInfo
                     ? <LegsAircraftInfo
                         aircraftInfo={props.aircraftInfo} />
-
                     : null}
                 {legPrintMode
                     ? <LegsPrintForm
